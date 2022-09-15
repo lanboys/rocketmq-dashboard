@@ -25,6 +25,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.acl.common.AclClientRPCHook;
 import org.apache.rocketmq.acl.common.SessionCredentials;
@@ -42,11 +43,11 @@ import org.apache.rocketmq.common.protocol.body.ConsumeMessageDirectlyResult;
 import org.apache.rocketmq.common.protocol.body.ConsumerConnection;
 import org.apache.rocketmq.dashboard.config.RMQConfigure;
 import org.apache.rocketmq.dashboard.exception.ServiceException;
-import org.apache.rocketmq.dashboard.model.QueueOffsetInfo;
-import org.apache.rocketmq.dashboard.model.MessageView;
 import org.apache.rocketmq.dashboard.model.MessagePage;
 import org.apache.rocketmq.dashboard.model.MessagePageTask;
 import org.apache.rocketmq.dashboard.model.MessageQueryByPage;
+import org.apache.rocketmq.dashboard.model.MessageView;
+import org.apache.rocketmq.dashboard.model.QueueOffsetInfo;
 import org.apache.rocketmq.dashboard.model.request.MessageQuery;
 import org.apache.rocketmq.dashboard.service.MessageService;
 import org.apache.rocketmq.remoting.RPCHook;
@@ -59,16 +60,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.List;
-import java.util.Comparator;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -440,6 +442,12 @@ public class MessageServiceImpl implements MessageService {
                         }
                         List<MessageView> collect = poll.stream()
                                 .map(MessageView::fromMessageExt).collect(Collectors.toList());
+                        collect.sort(new Comparator<MessageView>() {
+                                @Override
+                                public int compare(MessageView v1, MessageView v2) {
+                                    return (int) (v2.getStoreTimestamp() - v1.getStoreTimestamp());
+                                }
+                            });
 
                         for (MessageView view : collect) {
                             if (size > 0) {

@@ -45,8 +45,8 @@ module.controller('topicController', ['$scope', 'ngDialog', '$http', 'Notificati
         }
     };
     $scope.filterNormal = true
-    $scope.filterRetry = false
-    $scope.filterDLQ = false
+    $scope.filterRetry = true
+    $scope.filterDLQ = true
     $scope.filterSystem = false
     $scope.allTopicList = [];
     $scope.topicShowList = [];
