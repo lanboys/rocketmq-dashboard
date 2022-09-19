@@ -387,6 +387,12 @@ public class MessageServiceImpl implements MessageService {
 
                 }
             }
+            messageViews.sort(new Comparator<MessageView>() {
+                @Override
+                public int compare(MessageView v1, MessageView v2) {
+                    return (int) (v2.getStoreTimestamp() - v1.getStoreTimestamp());
+                }
+            });
             PageImpl<MessageView> page = new PageImpl<>(messageViews, query.page(), total);
             return new MessagePageTask(page, queueOffsetInfos);
         } catch (Exception e) {
@@ -442,12 +448,6 @@ public class MessageServiceImpl implements MessageService {
                         }
                         List<MessageView> collect = poll.stream()
                                 .map(MessageView::fromMessageExt).collect(Collectors.toList());
-                        collect.sort(new Comparator<MessageView>() {
-                                @Override
-                                public int compare(MessageView v1, MessageView v2) {
-                                    return (int) (v2.getStoreTimestamp() - v1.getStoreTimestamp());
-                                }
-                            });
 
                         for (MessageView view : collect) {
                             if (size > 0) {
@@ -461,6 +461,12 @@ public class MessageServiceImpl implements MessageService {
 
                 }
             }
+            messageViews.sort(new Comparator<MessageView>() {
+                @Override
+                public int compare(MessageView v1, MessageView v2) {
+                    return (int) (v2.getStoreTimestamp() - v1.getStoreTimestamp());
+                }
+            });
             return new PageImpl<>(messageViews, query.page(), total);
         } catch (Exception e) {
             throw Throwables.propagate(e);
