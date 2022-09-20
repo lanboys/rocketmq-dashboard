@@ -390,7 +390,7 @@ public class MessageServiceImpl implements MessageService {
             messageViews.sort(new Comparator<MessageView>() {
                 @Override
                 public int compare(MessageView v1, MessageView v2) {
-                    return (int) (v2.getStoreTimestamp() - v1.getStoreTimestamp());
+                    return (int) (v2.getCommitLogOffset() - v1.getCommitLogOffset());
                 }
             });
             PageImpl<MessageView> page = new PageImpl<>(messageViews, query.page(), total);
@@ -464,7 +464,7 @@ public class MessageServiceImpl implements MessageService {
             messageViews.sort(new Comparator<MessageView>() {
                 @Override
                 public int compare(MessageView v1, MessageView v2) {
-                    return (int) (v2.getStoreTimestamp() - v1.getStoreTimestamp());
+                    return (int) (v2.getCommitLogOffset() - v1.getCommitLogOffset());
                 }
             });
             return new PageImpl<>(messageViews, query.page(), total);
