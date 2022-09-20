@@ -57,6 +57,10 @@ module.controller('messageTraceController', ['$scope', '$routeParams', 'ngDialog
                 $scope.allTraceTopicList.push(topic);
             }
             console.log($scope.allTraceTopicList)
+            if ($scope.allTopicList.includes('aaaaa')){
+                $scope.selectedTopic = "aaaaa";
+                console.log("select default topic aaaaa");
+            }
         } else {
             Notification.error({message: resp.errMsg, delay: 2000});
         }

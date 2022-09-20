@@ -29,6 +29,10 @@ module.controller('producerController', ['$scope', '$http','Notification',functi
         if(resp.status ==0){
             $scope.allTopicList = resp.data.topicList.sort();
             console.log($scope.allTopicList);
+            if ($scope.allTopicList.includes('aaaaa')){
+                $scope.selectedTopic = "aaaaa";
+                console.log("select default topic aaaaa");
+            }
         }else {
             Notification.error({message: resp.errMsg, delay: 2000});
         }
