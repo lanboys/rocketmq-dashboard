@@ -79,7 +79,8 @@ module.controller('messageController', ['$scope', 'ngDialog', '$http', 'Notifica
                 end: $scope.timepickerEnd.valueOf(),
                 pageNum: $scope.paginationConf.currentPage,
                 pageSize: $scope.paginationConf.itemsPerPage,
-                taskId: $scope.taskId
+//                taskId: $scope.taskId
+                taskId: ""
             }
         }).success(function (resp) {
             if (resp.status === 0) {
